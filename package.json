@@ -1,0 +1,23 @@
+{
+  "name": "tavily-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server exposing Tavily search, extract, map and crawl APIs",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": { "tavily-mcp-server": "dist/index.js" },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
