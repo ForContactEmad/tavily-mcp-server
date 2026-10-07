@@ -1,45 +1,121 @@
+<div align="center">
+
 # Tavily MCP Server
+
+Give your AI assistant live web access: search, extract, map and crawl, powered by [Tavily](https://tavily.com).
+
+![Node](https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white)
+![MCP](https://img.shields.io/badge/MCP-stdio-black)
 
 [العربية](README.ar.md)
 
-An MCP server (stdio, TypeScript) that gives the assistant live web access through [Tavily](https://tavily.com): `search`, `extract`, `map` and `crawl`.
+</div>
+
+---
+
+## Overview
+
+An [MCP](https://modelcontextprotocol.io) server (stdio transport, written in TypeScript) that exposes the Tavily API as tools any MCP-compatible client can call. A simpler single-tool Python version is included as an alternative.
 
 ## Tools
-- `tavily_search`: web search with optional answer, news/finance topics, date and domain filters
-- `tavily_extract`: clean content from up to 20 URLs, with query-based chunk filtering
-- `tavily_map`: discover a site's URL structure (no content)
-- `tavily_crawl`: crawl a site and return page content
 
-A simpler single-tool Python alternative (`server.py`, tool `web_search`) is also included.
+| Tool | What it does |
+|------|--------------|
+| `tavily_search` | Web search with an optional AI answer, news/finance topics, date and domain filters |
+| `tavily_extract` | Clean content from up to 20 URLs, with query-based chunk filtering |
+| `tavily_map` | Discover a site's URL structure (no page content) |
+| `tavily_crawl` | Crawl a site and return page content |
 
-## Setup
+The Python alternative (`server.py`) provides one tool, `web_search`.
+
+## Requirements
+
+- Node.js 18 or newer
+- A Tavily API key from [app.tavily.com](https://app.tavily.com)
+- *(Python version only)* Python 3.12 and [uv](https://github.com/astral-sh/uv)
+
+## Installation
+
 ```bash
-npm install && npm run build
-cp .env.example .env     # then put your real key in .env (never commit it)
+git clone https://github.com/ForContactEmad/tavily-mcp-server.git
+cd tavily-mcp-server
+npm install
+npm run build
 ```
-Get a key at https://app.tavily.com.
+
+## Configuration
+
+The TypeScript server does **not** read `.env`. Pass your key through your MCP client's `env` setting.
 
 ### CLI client
+
 ```bash
-<client-cli> mcp add tavily -e TAVILY_API_KEY=tvly-xxxx -- node /absolute/path/to/tavily-mcp-server/dist/index.js
+<client-cli> mcp add tavily \
+  -e TAVILY_API_KEY=tvly-xxxx \
+  -- node /absolute/path/to/tavily-mcp-server/dist/index.js
 ```
 
 ### Desktop client
-Edit `<client config file>` (see [mcp_client_config.example.json](mcp_client_config.example.json)), then quit with `Cmd+Q` and reopen.
 
-> The TypeScript server does **not** read `.env`; pass the key through the client's `env` setting as above.
+Add the server to your client's config file (see [`mcp_client_config.example.json`](mcp_client_config.example.json)):
 
-### Test
+```json
+{
+  "mcpServers": {
+    "tavily": {
+      "command": "node",
+      "args": ["/absolute/path/to/tavily-mcp-server/dist/index.js"],
+      "env": { "TAVILY_API_KEY": "tvly-xxxxxxxxxxxxxxxx" }
+    }
+  }
+}
+```
+
+Then quit the client completely (`Cmd+Q` on macOS) and reopen it.
+
+## Testing
+
+Try the tools interactively with the MCP Inspector:
+
 ```bash
 TAVILY_API_KEY=tvly-xxxx npx @modelcontextprotocol/inspector node dist/index.js
 ```
 
-### Python alternative
+## Development
+
+```bash
+npm run dev     # watch mode with tsx
+npm run build   # compile to dist/
+npm start       # run the compiled server
+```
+
+## Python alternative
+
 ```bash
 uv venv --python 3.12 .venv
 uv pip install --python .venv/bin/python -r requirements.txt
+cp .env.example .env          # add your real key
 .venv/bin/mcp dev server.py
 ```
 
+This version reads the key from `.env`.
+
+## Project structure
+
+```
+.
+├── src/
+│   ├── index.ts      # MCP server and tool definitions
+│   └── client.ts     # Tavily API client
+├── server.py         # Python alternative (web_search)
+├── mcp_client_config.example.json
+├── .env.example
+└── package.json
+```
+
 ## Security
-Never commit `.env`, a real `mcp_client_config.json`, or `*.bak` files.
+
+- Never commit `.env`, a real `mcp_client_config.json`, or `*.bak` files; they are already in `.gitignore`.
+- Use placeholders such as `tvly-xxxx` in examples and screenshots.
+- If a key is ever exposed, revoke it at [app.tavily.com](https://app.tavily.com) and create a new one.
