@@ -1,6 +1,6 @@
 # Tavily MCP Server
 
-[العربية](README.ar.md) · [Full guide (EN)](docs/GUIDE.en.md) · [الدليل الشامل (AR)](docs/GUIDE.ar.md)
+[العربية](README.ar.md)
 
 An MCP server (stdio, TypeScript) that gives the assistant live web access through [Tavily](https://tavily.com): `search`, `extract`, `map` and `crawl`.
 
@@ -42,4 +42,4 @@ uv pip install --python .venv/bin/python -r requirements.txt
 ```
 
 ## Security
-Never commit `.env`, a real `mcp_client_config.json`, or `*.bak` files. See the checklist in the [guide](docs/GUIDE.en.md#9-publishing-to-github-what-to-allow-and-what-to-block).
+Never commit `.env`, a real `mcp_client_config.json`, or `*.bak` files.

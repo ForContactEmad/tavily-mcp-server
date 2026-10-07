@@ -1,6 +1,6 @@
 # خادم Tavily MCP
 
-[English](README.md) · [الدليل الشامل (AR)](docs/GUIDE.ar.md) · [Full guide (EN)](docs/GUIDE.en.md)
+[English](README.md)
 
 خادم MCP (عبر stdio، مكتوب بـ TypeScript) يمنح المساعد بحثاً حياً في الويب عبر [Tavily](https://tavily.com): البحث والاستخراج والخريطة والزحف.
 
@@ -42,4 +42,4 @@ uv pip install --python .venv/bin/python -r requirements.txt
 ```
 
 ## الأمان
-لا ترفع أبداً `.env` ولا `mcp_client_config.json` الحقيقي ولا ملفات `*.bak`. راجع قائمة التحقق في [الدليل](docs/GUIDE.ar.md#9-الرفع-إلى-github-ما-نسمح-به-وما-نمنعه).
+لا ترفع أبداً `.env` ولا `mcp_client_config.json` الحقيقي ولا ملفات `*.bak`.
